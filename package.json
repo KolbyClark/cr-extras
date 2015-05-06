@@ -1,19 +1,17 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "Beardfist-Test",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "A test to learn node",
   "keywords": [
-    "OpenShift",
     "Node.js",
-    "application",
-    "openshift"
+    "application"
   ],
   "author": {
-    "name": "OpenShift",
+    "name": "Beardfist",
     "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "url": "http://www.crunchyroll.com/user/beardfist"
   },
-  "homepage": "http://www.openshift.com/",
+  "homepage": "http://www.crunchyroll.com/user/beardfist",
   "repository": {
     "type": "git",
     "url": "https://github.com/openshift/origin-server"
