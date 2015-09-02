@@ -24,7 +24,7 @@ var SampleApp = function() {
     self.setupVariables = function() {
         //  Set the environment variables we need.
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      =  80;
+        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
         if (typeof self.ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
@@ -143,14 +143,19 @@ var SampleApp = function() {
                         Date(Date.now() ), self.ipaddress, self.port);
         });
 		self.io = socketio.listen(self.app);
-    };
-	
-	self.io.sockets.on('connection', function(socket){
+		
+		self.io.sockets.on('connection', function(socket){
 	    socket.on('message', function(message){
 		  console.log('received message:', message);
 		  io.sockets.emit('message',message);
 		});
 	});
+		
+    };
+	
+	
+	
+	
 
 };   /*  Sample Application.  */
 
