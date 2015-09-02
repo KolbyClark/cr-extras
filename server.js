@@ -158,6 +158,7 @@ var SampleApp = function() {
 		  var md = crypto.createHash('md5');
 		  md.update(msg.name+salt+Date.now());
 		  md.digest();
+		  console.log(md);
 		  socket.join(md,function(){
 		    socket.emit('smessage',{msg:socketStrings[0]+md});
 		  });
