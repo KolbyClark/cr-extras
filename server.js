@@ -157,7 +157,7 @@ var SampleApp = function() {
 		socket.on('createRoom', function(msg){
 		  var md = crypto.createHash('md5');
 		  md.update(msg.name+salt+Date.now());
-		  md.digest('utf8');
+		  md.digest();
 		  socket.join(md,function(){
 		    socket.emit('smessage',{msg:socketStrings[0]+md});
 		  });
