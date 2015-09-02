@@ -2,6 +2,7 @@
 //  OpenShift sample Node application
 var express = require('express');
 var fs      = require('fs');
+var socketio = require('socket.io');
 
 
 /**
@@ -95,10 +96,6 @@ var SampleApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
 
         self.routes['/'] = function(req, res) {
             res.setHeader('Content-Type', 'text/html');
@@ -119,6 +116,7 @@ var SampleApp = function() {
         for (var r in self.routes) {
             self.app.get(r, self.routes[r]);
         }
+		
     };
 
 
@@ -144,7 +142,15 @@ var SampleApp = function() {
             console.log('%s: Node server started on %s:%d ...',
                         Date(Date.now() ), self.ipaddress, self.port);
         });
+		self.io = socketio.listen(self.app);
     };
+	
+	self.io.sockets.on('connection', function(socket){
+	    socket.on('message', function(message){
+		  console.log('received message:', message);
+		  io.sockets.emit('message',message);
+		});
+	});
 
 };   /*  Sample Application.  */
 
