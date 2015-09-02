@@ -61,11 +61,11 @@
                 }
             });
 			$('.create').click(function(){
-			  socket.emit('createRoom',$messageInput.val().trim());
+			  socket.emit('createRoom',{name:$messageInput.val().trim()});
 			  $messageInput.val('');
 			});
 			$('.join').click(function(){
-			  socket.emit('joinRoom',$messageInput.val().trim());
+			  socket.emit('joinRoom',{name:$messageInput.val().trim()});
 			  $messageInput.val('');
 			});
         });
