@@ -189,8 +189,8 @@ var SampleApp = function() {
 	  };
 	  var req = http.request(options, function(res){
 	    console.log('Status: '+res.statusCode);
-		console.log('Headers: '+JSON.stringify(res.headers));
-	  };
+		console.log('HEADERS: ' + JSON.stringify(res.headers));
+	  });
 	  req.end();
 	});
 	
