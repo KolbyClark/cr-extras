@@ -3,6 +3,7 @@
 var express = require('express');
 var fs      = require('fs');
 var socketio = require('socket.io');
+var crypto  = require('crypto');
 
 
 /**
@@ -12,7 +13,8 @@ var SampleApp = function() {
 
     //  Scope.
     var self = this;
-
+	var salt = "salty";
+	var socketStrings = ["To have your friends join this room, have them type /join ","You have joined the room: "];
 
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -142,16 +144,31 @@ var SampleApp = function() {
             console.log('%s: Node server started on %s:%d ...',
                         Date(Date.now() ), self.ipaddress, self.port);
         });
-		self.io = socketio.listen(self.server);
 		
-		self.io.sockets.on('connection', function(socket){
-	      socket.on('message', function(message){
-		    console.log('received message:', message);
-		    self.io.sockets.emit('message',message);
-		  });
-	    });
 		
     };
+	self.startSocket = function() {
+	  self.io = socketio.listen(self.server);
+	  self.io.sockets.on('connection', function(socket){
+	    socket.on('message', function(message){
+		  console.log('received message:', message);
+		  self.io.sockets.emit('message',message);
+	    });
+		socket.on('createRoom', function(msg){
+		  var md = crypto.createHash('md5');
+		  md.update(msg.name+salt+Date.Now());
+		  md.digest('utf8');
+		  socket.join(md,function(){
+		    socket.emit('smessage',{msg:socketStrings[0]+md);
+		  });
+		});
+		socket.on('joinRoom',function(msg){
+		  socket.join(msg.name,function(){
+		    socket.emit('smessage',{msg:socketStrings[1]+msg.name);
+		  });
+		});
+	  });
+	};
 	
 	
 	
@@ -167,4 +184,5 @@ var SampleApp = function() {
 var zapp = new SampleApp();
 zapp.initialize();
 zapp.start();
+zapp.startSocket();
 

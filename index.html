@@ -4,13 +4,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Welcome to Hell</title>
+  <style>
+    .server-message{
+	  color: red;
+	}
+  </style>
 </head>
 <body>
 <body>
     <!-- App -->
     <div class="app">
         <ul class="messages"></ul>
-        <input type="text" class="messageInput" placeholder="Enter your message here" />
+        <input type="text" class="messageInput" placeholder="Enter your message here" /><br />
+		<input type="button" class="create">Create Room</button><br />
+		<input type="button" class="join">Join Room</button>
     </div>
 
     <!-- Scripts -->
@@ -36,6 +43,11 @@
                 });
                 $messages.append($message);
             });
+			socket.on('smessage', function(message){
+			  console.log('received a sever message:',message);
+			  $message = $('<li>'{'class': ['message','sever-message'],text: message.msg});
+			  $messages.append($message);
+			});
 
             // Send Message
             $messageInput.on('keypress', function(event){
@@ -48,6 +60,14 @@
                     $messageInput.val(''); // clear input
                 }
             });
+			$('.create').click(function(){
+			  socket.emit('createRoom',$messageInput.val().trim());
+			  $messageInput.val('');
+			});
+			$('.join').click(function(){
+			  socket.emit('joinRoom',$messageInput.val().trim());
+			  $messageInput.val('');
+			});
         });
     </script>
 </body>
