@@ -110,7 +110,7 @@ var SampleApp = function() {
      */
     self.initializeServer = function() {
         self.createRoutes();
-        self.app = express.createServer();
+        self.app = express();
 
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {
@@ -138,18 +138,18 @@ var SampleApp = function() {
      */
     self.start = function() {
         //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function() {
+        self.server = self.app.listen(self.port, self.ipaddress, function() {
             console.log('%s: Node server started on %s:%d ...',
                         Date(Date.now() ), self.ipaddress, self.port);
         });
-		self.io = socketio.listen(self.app);
+		self.io = socketio.listen(self.server);
 		
 		self.io.sockets.on('connection', function(socket){
-	    socket.on('message', function(message){
-		  console.log('received message:', message);
-		  io.sockets.emit('message',message);
-		});
-	});
+	      socket.on('message', function(message){
+		    console.log('received message:', message);
+		    io.sockets.emit('message',message);
+		  });
+	    });
 		
     };
 	
