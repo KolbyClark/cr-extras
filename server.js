@@ -192,7 +192,7 @@ var SampleApp = function() {
 		console.log('HEADERS: ' + JSON.stringify(res.headers));
 	  });
 	  req.end();
-	});
+	};
 	
 	
 	
