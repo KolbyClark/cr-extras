@@ -4,6 +4,7 @@ var express = require('express');
 var fs      = require('fs');
 var socketio = require('socket.io');
 var crypto  = require('crypto');
+var http = require('http');
 
 
 /**
