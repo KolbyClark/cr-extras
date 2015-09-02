@@ -45,7 +45,7 @@
             });
 			socket.on('smessage', function(message){
 			  console.log('received a sever message:',message);
-			  $message = $('<li>'{'class': ['message','sever-message'],text: message.msg});
+			  $message = $('<li>'{'class': 'sever-message',text: message.msg});
 			  $messages.append($message);
 			});
 
