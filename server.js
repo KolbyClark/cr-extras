@@ -147,7 +147,7 @@ var SampleApp = function() {
 		self.io.sockets.on('connection', function(socket){
 	      socket.on('message', function(message){
 		    console.log('received message:', message);
-		    io.sockets.emit('message',message);
+		    self.io.sockets.emit('message',message);
 		  });
 	    });
 		
