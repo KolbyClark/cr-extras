@@ -159,12 +159,11 @@ var SampleApp = function() {
 		  }
 	    });
 		socket.on('createRoom', function(msg){
-		  var md = crypto.createHash('md5');
+		  /*var md = crypto.createHash('md5');
 		  md.update(msg.name+salt+Date.now());
-		  hash = md.digest('hex');
-		  console.log(hash);
-		  socket.join(hash,function(){
-		    socket.emit('smessage',{msg:socketStrings[0]+hash});
+		  hash = md.digest('hex');*/
+		  socket.join(msg.name,function(){
+		    socket.emit('smessage',{msg:socketStrings[0]+name});
 			if(socket.rooms.indexOf('default')>-1)
 			  socket.leave('default');
 		  });
