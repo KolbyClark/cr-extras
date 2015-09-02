@@ -175,9 +175,24 @@ var SampleApp = function() {
 		socket.on('rooms',function(){
 		  console.log(socket.rooms);
 		});
+		socket.on('check',function(msg){
+		  self.getHeaders(msg.url);
+		});
 	  });
 	};
-	
+	self.getHeaders = function(url){
+	  var options = {
+	    hostname: 'www.crunchyroll.com',
+		port: 80,
+		path: url,
+		method: 'HEAD'
+	  };
+	  var req = http.request(options, function(res){
+	    console.log('Status: '+res.statusCode);
+		console.log('Headers: '+JSON.stringify(res.headers));
+	  };
+	  req.end();
+	});
 	
 	
 	
