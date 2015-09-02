@@ -157,10 +157,10 @@ var SampleApp = function() {
 		socket.on('createRoom', function(msg){
 		  var md = crypto.createHash('md5');
 		  md.update(msg.name+salt+Date.now());
-		  md.digest();
-		  console.log(md);
-		  socket.join(md,function(){
-		    socket.emit('smessage',{msg:socketStrings[0]+md});
+		  hash = md.digest('hex');
+		  console.log(hash);
+		  socket.join(hash,function(){
+		    socket.emit('smessage',{msg:socketStrings[0]+hash});
 		  });
 		});
 		socket.on('joinRoom',function(msg){
