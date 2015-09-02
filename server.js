@@ -150,9 +150,12 @@ var SampleApp = function() {
 	self.startSocket = function() {
 	  self.io = socketio.listen(self.server);
 	  self.io.sockets.on('connection', function(socket){
+	    socket.join('default');
 	    socket.on('message', function(message){
 		  console.log('received message:', message);
-		  self.io.sockets.emit('message',message);
+		  for(var x=0;x<socket.rooms.length;x++){
+		    self.io.to(socket.rooms[x]).emit('message',message);
+		  }
 	    });
 		socket.on('createRoom', function(msg){
 		  var md = crypto.createHash('md5');
@@ -161,11 +164,15 @@ var SampleApp = function() {
 		  console.log(hash);
 		  socket.join(hash,function(){
 		    socket.emit('smessage',{msg:socketStrings[0]+hash});
+			if(socket.rooms.indexOf('default')>-1)
+			  socket.leave('default');
 		  });
 		});
 		socket.on('joinRoom',function(msg){
 		  socket.join(msg.name,function(){
 		    socket.emit('smessage',{msg:socketStrings[1]+msg.name});
+			if(socket.rooms.indexOf('default')>-1)
+			  socket.leave('default');
 		  });
 		});
 	  });
