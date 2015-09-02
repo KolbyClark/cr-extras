@@ -159,12 +159,12 @@ var SampleApp = function() {
 		  md.update(msg.name+salt+Date.Now());
 		  md.digest('utf8');
 		  socket.join(md,function(){
-		    socket.emit('smessage',{msg:socketStrings[0]+md);
+		    socket.emit('smessage',{msg:socketStrings[0]+md});
 		  });
 		});
 		socket.on('joinRoom',function(msg){
 		  socket.join(msg.name,function(){
-		    socket.emit('smessage',{msg:socketStrings[1]+msg.name);
+		    socket.emit('smessage',{msg:socketStrings[1]+msg.name});
 		  });
 		});
 	  });
