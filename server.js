@@ -175,6 +175,9 @@ var SampleApp = function() {
 			  socket.leave('default');
 		  });
 		});
+		socket.on('rooms',function(){
+		  console.log(socket.rooms);
+		});
 	  });
 	};
 	
