@@ -193,8 +193,10 @@ var SampleApp = function() {
 			    if(threadWatchers[x].threads.indexOf(threads[y])==-1){
 				  threadWatchers[x].threads.push(threads[y]);
 				}
-				if(watchedThreads.indexOf(threads[y])==-1)
-				  watchedThreads.push(threads[y]);
+				if(watchedThreads[threads[y]]===undefined){
+				  self.addThread(threads[y]);
+				  threadStack.push(threads[y]);
+				}
 			  }
 			}
 		  }
@@ -228,8 +230,8 @@ var SampleApp = function() {
 	  updatedThreads = [];
 	};
 	self.processThreadStack = function(){
-	  var temp = watchedThreads[0];
-	  watchedThreads.push(watchedThreads.splice(0,1)[0]);
+	  var temp = threadStack[0];
+	  threadStack.push(threadStack.splice(0,1)[0]);
 	  checkThread(temp);
 	};
 	self.addThread = function(threadId){
