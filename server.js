@@ -250,7 +250,7 @@ var SampleApp = function() {
 	  }
 	};
 	self.checkThread = function(threadId){
-	  var url = '/forumtopic-'+threadId+'?page=last';
+	  var url = '/forumtopic-'+threadId+'?pg=last';
 	  var options = {
 	    hostname: 'www.crunchyroll.com',
 		port: 80,
