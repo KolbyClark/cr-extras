@@ -201,7 +201,7 @@ var SampleApp = function() {
 		  }
 		  if(isNew){
 		    threadWatchers.push({socket:socket,threads:msg.threads});			
-			for(var y=0;y<msg.threads.length;Y++){
+			for(var y=0;y<msg.threads.length;y++){
 			  console.log('adding thread: ',msg.threads[y]);
 			  self.addThread(msg.threads[y]);
 			}
