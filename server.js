@@ -219,7 +219,7 @@ var SampleApp = function() {
 	  
 	  threadWatcher = setInterval(self.processThreadStack,1000);
 	  updatePusher = setInterval(self.pushThreadUpdates,30000);
-	  console.log('started thread',threadWatcher,updatePusher);
+	  console.log('started thread');
 	};
 	self.stopThread = function(){
 	  clearInterval(threadWatcher);
@@ -250,7 +250,7 @@ var SampleApp = function() {
 	  }
 	};
 	self.checkThread = function(threadId){
-	  var url = '/forumtopic-'+threadId+'/?page=last';
+	  var url = '/forumtopic-'+threadId+'?page=last';
 	  var options = {
 	    hostname: 'www.crunchyroll.com',
 		port: 80,
