@@ -16,7 +16,12 @@ var SampleApp = function() {
     var self = this;
 	var salt = "salty";
 	var socketStrings = ["To have your friends join this room, have them type /join ","You have joined the room: "];
-
+	var watchedThreads = {};
+    var threadStack = [];
+	var threadWatchers = [];
+	var updatedThreads = [];
+	var threadWatcher,updatePusher;
+	
     /*  ================================================================  */
     /*  Helper functions.                                                 */
     /*  ================================================================  */
@@ -177,20 +182,77 @@ var SampleApp = function() {
 		  console.log(socket.rooms);
 		});
 		socket.on('check',function(msg){
-		  self.getHeaders(msg.url);
+		  self.checkThread(msg.threadId);
+		});
+		socket.on('addThreads',function(msg){
+		  var isNew = true;
+		  for(var x=0;x<threadWatchers.length;x++){
+		    if(threadWatchers[x].socket==socket){
+			  isNew = false;
+			  for(var y=0;y<msg.threads.length;Y++){
+			    if(threadWatchers[x].threads.indexOf(threads[y])==-1){
+				  threadWatchers[x].threads.push(threads[y]);
+				}
+				if(watchedThreads.indexOf(threads[y])==-1)
+				  watchedThreads.push(threads[y]);
+			  }
+			}
+		  }
+		  if(isNew){
+		    threadWatchers.push({socket:socket,threads:msg.threads});
+		  }
 		});
 	  });
 	};
-	self.getHeaders = function(url){
+	self.startThread = function(){
+	  threadWatcher = setInterval(self.processThreadStack,1000);
+	  updatePusher = setInterval(self.pushThreadUpdates,30000);
+	});
+	self.stopThread = function(){
+	  clearInterval(threadWatcher);
+	  clearInterval(updatePuser);
+	});
+	self.pushThreadUpdates = function(){
+	  for(var x=0;x<threadWatchers.length;x++){
+	    var temp = threadWatchers[x].threads.filter(function(n) {
+          return updatedThreads.indexOf(n) > -1;
+        });
+		threadWatchers[x].socket.emit('threadUpdates',{threads:temp});
+	  }
+	  updatedThreads = [];
+	});
+	self.processThreadStack = function(){
+	  var temp = watchedThreads[0];
+	  watchedThreads.push(watchedThreads.splice(0,1)[0]);
+	  checkThread(temp);
+	});
+	self.addThread = function(threadId){
+	  if(watchedThreads[threadId]===undefined){
+	    var temp = {};
+		temp.oldPost = 1;
+		temp.newPost = 1;
+		watchedThreads[threadId]=temp;
+	  }
+	});
+	self.checkThread = function(threadId){
 	  var options = {
 	    hostname: 'www.crunchyroll.com',
 		port: 80,
-		path: url,
+		path: '/forumtopic-'+threadId+'/?page=last',
 		method: 'HEAD'
 	  };
 	  var req = http.request(options, function(res){
 	    console.log('Status: '+res.statusCode);
 		console.log('HEADERS: ' + JSON.stringify(res.headers.location));
+		if(res.statusCode==302&&res.headers.location!==undefined){
+		  var postId = res.headers.location.split('#')[1];
+		  var thread = watchedThreads[threadId];
+		  if(thread.newPost!==postId){
+		    thread.oldPost = thread.newPost;
+			thread.newPost = postId;
+			updatedThreads.push(threadId);
+		  }			
+		}
 	  });
 	  req.end();
 	};
