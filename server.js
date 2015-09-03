@@ -200,9 +200,9 @@ var SampleApp = function() {
 			}
 		  }
 		  if(isNew){
-		    threadWatchers.push({socket:socket,threads:msg.threads});
-			console.log('adding thread: ',threads[y]);
+		    threadWatchers.push({socket:socket,threads:msg.threads});			
 			for(var y=0;y<msg.threads.length;Y++){
+			  console.log('adding thread: ',threads[y]);
 			  self.addThread(threads[y]);
 			}
 		  }
