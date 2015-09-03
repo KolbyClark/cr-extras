@@ -229,11 +229,17 @@ var SampleApp = function() {
 	self.pushThreadUpdates = function(){
 	  for(var x=0;x<threadWatchers.length;x++){
 	    var temp = threadWatchers[x].threads.filter(function(n) {
-          return updatedThreads.indexOf(n) > -1;
+          return updatedThreads[n]!==undefined;
         });
-		threadWatchers[x].socket.emit('threadUpdates',{threads:temp});
+		if(temp.length>0){
+		  var updateInfo = {};
+		  for(var y=0;y<temp.length;y++){
+		    updateInfo[temp[y]] = updatedThreads[temp[y]];
+		  }
+		  threadWatchers[x].socket.emit('threadUpdates',{threads:updateInfo});
+		}
 	  }
-	  updatedThreads = [];
+	  updatedThreads = {};
 	};
 	self.processThreadStack = function(){
 	  var temp = threadStack[0];
@@ -267,7 +273,7 @@ var SampleApp = function() {
 		  if(thread.newPost!==postId){
 		    thread.oldPost = thread.newPost;
 			thread.newPost = postId;
-			updatedThreads.push(threadId);
+			updatedThreads[threadId]=postId;
 		  }			
 		}
 	  });
