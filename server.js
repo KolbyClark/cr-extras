@@ -185,7 +185,7 @@ var SampleApp = function() {
 		  self.checkThread(msg.threadId);
 		});
 		socket.on('addThreads',function(msg){
-		  console.log('adding threads: '.msg.threads);
+		  console.log('adding threads: ',msg.threads);
 		  var isNew = true;
 		  for(var x=0;x<threadWatchers.length;x++){
 		    if(threadWatchers[x].socket==socket){
