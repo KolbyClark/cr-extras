@@ -207,11 +207,11 @@ var SampleApp = function() {
 	self.startThread = function(){
 	  threadWatcher = setInterval(self.processThreadStack,1000);
 	  updatePusher = setInterval(self.pushThreadUpdates,30000);
-	});
+	};
 	self.stopThread = function(){
 	  clearInterval(threadWatcher);
 	  clearInterval(updatePuser);
-	});
+	};
 	self.pushThreadUpdates = function(){
 	  for(var x=0;x<threadWatchers.length;x++){
 	    var temp = threadWatchers[x].threads.filter(function(n) {
@@ -220,12 +220,12 @@ var SampleApp = function() {
 		threadWatchers[x].socket.emit('threadUpdates',{threads:temp});
 	  }
 	  updatedThreads = [];
-	});
+	};
 	self.processThreadStack = function(){
 	  var temp = watchedThreads[0];
 	  watchedThreads.push(watchedThreads.splice(0,1)[0]);
 	  checkThread(temp);
-	});
+	};
 	self.addThread = function(threadId){
 	  if(watchedThreads[threadId]===undefined){
 	    var temp = {};
@@ -233,7 +233,7 @@ var SampleApp = function() {
 		temp.newPost = 1;
 		watchedThreads[threadId]=temp;
 	  }
-	});
+	};
 	self.checkThread = function(threadId){
 	  var options = {
 	    hostname: 'www.crunchyroll.com',
