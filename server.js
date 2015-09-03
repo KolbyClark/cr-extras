@@ -213,12 +213,12 @@ var SampleApp = function() {
 	  });
 	};
 	self.startThread = function(){
-	  threadWatcher = setInterval(self.processThreadStack,1000);
-	  updatePusher = setInterval(self.pushThreadUpdates,30000);
+	  self.threadWatcher = setInterval(self.processThreadStack,1000);
+	  self.updatePusher = setInterval(self.pushThreadUpdates,30000);
 	};
 	self.stopThread = function(){
-	  clearInterval(threadWatcher);
-	  clearInterval(updatePuser);
+	  clearInterval(self.threadWatcher);
+	  clearInterval(self.updatePuser);
 	};
 	self.pushThreadUpdates = function(){
 	  for(var x=0;x<threadWatchers.length;x++){
@@ -243,13 +243,15 @@ var SampleApp = function() {
 	  }
 	};
 	self.checkThread = function(threadId){
+	  var url = '/forumtopic-'+threadId+'/?page=last';
 	  var options = {
 	    hostname: 'www.crunchyroll.com',
 		port: 80,
-		path: '/forumtopic-'+threadId+'/?page=last',
+		path: url,
 		method: 'HEAD'
 	  };
 	  var req = http.request(options, function(res){
+	    console.log('url:'+url);
 	    console.log('Status: '+res.statusCode);
 		console.log('HEADERS: ' + JSON.stringify(res.headers.location));
 		if(res.statusCode==302&&res.headers.location!==undefined){
