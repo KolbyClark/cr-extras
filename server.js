@@ -200,6 +200,16 @@ var SampleApp = function() {
 				  self.addThread(threads[y]);
 				}
 			  }
+			}else{
+			  var temp = {};
+			  temp.socket = socket;
+			  temp.threads = msg.threads;
+			  for(var y=0;y<msg.threads.length;y++){
+			    if(watchedThreads[threads[y]]===undefined){
+				  console.log('adding thread: ',threads[y]);
+				  self.addThread(threads[y]);
+			    }
+			  }
 			}
 		  }
 		  if(isNew){
