@@ -187,15 +187,15 @@ var SampleApp = function() {
 		socket.on('addThreads',function(msg){
 		  console.log('adding threads');
 		  var isNew = true;
-		  for(var x=0;x<self.threadWatchers.length;x++){
-		    if(self.threadWatchers[x].socket==socket){
+		  for(var x=0;x<threadWatchers.length;x++){
+		    if(threadWatchers[x].socket==socket){
 			  isNew = false;
 			  for(var y=0;y<msg.threads.length;Y++){
-			    if(self.threadWatchers[x].threads.indexOf(threads[y])==-1){
-				  self.threadWatchers[x].threads.push(threads[y]);
+			    if(threadWatchers[x].threads.indexOf(threads[y])==-1){
+				  threadWatchers[x].threads.push(threads[y]);
 				  self.addThread(threads[y]);
 				}
-				if(self.watchedThreads[threads[y]]===undefined){
+				if(watchedThreads[threads[y]]===undefined){
 				  console.log('adding thread: ',threads[y]);
 				  self.addThread(threads[y]);
 				}
@@ -203,7 +203,7 @@ var SampleApp = function() {
 			}
 		  }
 		  if(isNew){
-		    self.threadWatchers.push({socket:socket,threads:msg.threads});
+		    threadWatchers.push({socket:socket,threads:msg.threads});
 		  }
 		});
 		socket.on('startThread',function(){
@@ -216,36 +216,36 @@ var SampleApp = function() {
 	};
 	self.startThread = function(){
 	  
-	  self.threadWatcher = setInterval(self.processThreadStack,1000);
-	  self.updatePusher = setInterval(self.pushThreadUpdates,30000);
-	  console.log('started thread',self.threadWatcher,self.updatePusher);
+	  threadWatcher = setInterval(self.processThreadStack,1000);
+	  updatePusher = setInterval(self.pushThreadUpdates,30000);
+	  console.log('started thread',threadWatcher,updatePusher);
 	};
 	self.stopThread = function(){
-	  clearInterval(self.threadWatcher);
-	  clearInterval(self.updatePuser);
+	  clearInterval(threadWatcher);
+	  clearInterval(updatePusher);
 	  console.log('stopped thread?');
 	};
 	self.pushThreadUpdates = function(){
-	  for(var x=0;x<self.threadWatchers.length;x++){
-	    var temp = self.threadWatchers[x].threads.filter(function(n) {
-          return self.updatedThreads.indexOf(n) > -1;
+	  for(var x=0;x<threadWatchers.length;x++){
+	    var temp = threadWatchers[x].threads.filter(function(n) {
+          return updatedThreads.indexOf(n) > -1;
         });
-		self.threadWatchers[x].socket.emit('threadUpdates',{threads:temp});
+		threadWatchers[x].socket.emit('threadUpdates',{threads:temp});
 	  }
 	  updatedThreads = [];
 	};
 	self.processThreadStack = function(){
-	  var temp = self.threadStack[0];
-	  self.threadStack.push(threadStack.splice(0,1)[0]);
+	  var temp = threadStack[0];
+	  threadStack.push(threadStack.splice(0,1)[0]);
 	  self.checkThread(temp);
 	};
 	self.addThread = function(threadId){
-	  if(self.watchedThreads[threadId]===undefined){
+	  if(watchedThreads[threadId]===undefined){
 	    var temp = {};
 		temp.oldPost = 1;
 		temp.newPost = 1;
-		self.watchedThreads[threadId]=temp;
-		self.push(threadId);
+		watchedThreads[threadId]=temp;
+		threadStack.push(threadId);
 	  }
 	};
 	self.checkThread = function(threadId){
@@ -266,7 +266,7 @@ var SampleApp = function() {
 		  if(thread.newPost!==postId){
 		    thread.oldPost = thread.newPost;
 			thread.newPost = postId;
-			self.updatedThreads.push(threadId);
+			updatedThreads.push(threadId);
 		  }			
 		}
 	  });
