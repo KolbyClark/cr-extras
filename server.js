@@ -191,19 +191,19 @@ var SampleApp = function() {
 		    if(threadWatchers[x].socket==socket){
 			  isNew = false;
 			  for(var y=0;y<msg.threads.length;Y++){
-			    if(threadWatchers[x].threads.indexOf(threads[y])==-1){
-				  threadWatchers[x].threads.push(threads[y]);
+			    if(threadWatchers[x].threads.indexOf(msg.threads[y])==-1){
+				  threadWatchers[x].threads.push(msg.threads[y]);
 				}
-				console.log('adding thread: ',threads[y]);
-				self.addThread(threads[y]);
+				console.log('adding thread: ',msg.threads[y]);
+				self.addThread(msg.threads[y]);
 			  }
 			}
 		  }
 		  if(isNew){
 		    threadWatchers.push({socket:socket,threads:msg.threads});			
 			for(var y=0;y<msg.threads.length;Y++){
-			  console.log('adding thread: ',threads[y]);
-			  self.addThread(threads[y]);
+			  console.log('adding thread: ',msg.threads[y]);
+			  self.addThread(msg.threads[y]);
 			}
 		  }
 		});
