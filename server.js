@@ -202,6 +202,12 @@ var SampleApp = function() {
 		    threadWatchers.push({socket:socket,threads:msg.threads});
 		  }
 		});
+		socket.on('startThread',function(){
+		  self.startThread();
+		});
+		socket.on('stopThread',function(){
+		  self.stopThread();
+		});
 	  });
 	};
 	self.startThread = function(){
