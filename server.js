@@ -239,7 +239,7 @@ var SampleApp = function() {
 	  });
 	};
 	self.startThread = function(){
-	  if(threadWatcher === undefined && updatePusher === undeinfed){
+	  if(threadWatcher === undefined && updatePusher === undefined){
 	    threadWatcher = setInterval(self.processThreadStack,1000);
 	    updatePusher = setInterval(self.pushThreadUpdates,30000);
 	    console.log('started thread');
