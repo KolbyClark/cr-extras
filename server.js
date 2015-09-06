@@ -242,9 +242,11 @@ var SampleApp = function() {
 	  updatedThreads = {};
 	};
 	self.processThreadStack = function(){
-	  var temp = threadStack[0];
-	  threadStack.push(threadStack.splice(0,1)[0]);
-	  self.checkThread(temp);
+	  if(threadStack.length > 0){
+	    var temp = threadStack[0];
+	    threadStack.push(threadStack.splice(0,1)[0]);
+	    self.checkThread(temp);
+	  }
 	};
 	self.addThread = function(threadId){
 	  if(watchedThreads[threadId]===undefined){
