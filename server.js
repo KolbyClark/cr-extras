@@ -20,6 +20,7 @@ var SampleApp = function() {
     var threadStack = [];
 	var threadWatchers = [];
 	var updatedThreads = [];
+	var activeThreads = [];
 	var threadWatcher,updatePusher;
 	
     /*  ================================================================  */
@@ -197,6 +198,7 @@ var SampleApp = function() {
 				console.log('adding thread: ',msg.threads[y]);
 				self.addThread(msg.threads[y]);
 			  }
+			  break;
 			}
 		  }
 		  if(isNew){
@@ -204,6 +206,20 @@ var SampleApp = function() {
 			for(var y=0;y<msg.threads.length;y++){
 			  console.log('adding thread: ',msg.threads[y]);
 			  self.addThread(msg.threads[y]);
+			}
+		  }
+		});
+		socket.on('removeThreads',function(msg){
+		  console.log('removing threads: ',msg.threads);
+		  for(var x=0;x<threadWatchers.length;x++){
+		    if(threadWatchers[x].socket==socket){
+			  for(var y=0;y<msg.threads.length;y++){
+			    var n = threadWatchers[x].threads.indexOf(msg.threads[y]);
+				if(n>-1)
+			      threadWatchers[x].threads.splice(n,1);
+				self.removeThread(msg.threads[y]);
+			  }
+			  break;
 			}
 		  }
 		});
@@ -219,12 +235,12 @@ var SampleApp = function() {
 	  
 	  threadWatcher = setInterval(self.processThreadStack,1000);
 	  updatePusher = setInterval(self.pushThreadUpdates,30000);
-	  console.log('started thread: ','threadWatcher: ',threadWatcher,'updatePusher: ',updatePusher);
+	  console.log('started thread');
 	};
 	self.stopThread = function(){
 	  clearInterval(threadWatcher);
 	  clearInterval(updatePusher);
-	  console.log('stopped thread?','threadWatcher: ',threadWatcher,'updatePusher: ',updatePusher);
+	  console.log('stopped thread?');
 	};
 	self.pushThreadUpdates = function(){
 	  for(var x=0;x<threadWatchers.length;x++){
@@ -250,11 +266,19 @@ var SampleApp = function() {
 	};
 	self.addThread = function(threadId){
 	  if(watchedThreads[threadId]===undefined){
-	    var temp = {};
-		temp.oldPost = 1;
-		temp.newPost = 1;
-		watchedThreads[threadId]=temp;
+		watchedThreads[threadId]=1;
 		threadStack.push(threadId);
+		activeThreads[threadId] = (activeThreads[threadId]===undefined) ? 1 : ++activeThreads[threadId];
+	  }
+	};
+	self.removeThread = function(threadId){
+	  if(activeThreads[threadId]!==undefined){
+	    if(--activeThreads[threadId]<1){
+		  watchedThreads[threadId]=undefined;
+		  var n = threadStack.indexOf(threadId);
+		  if(n>-1)
+		    threadStack.splice(n,1);
+		}
 	  }
 	};
 	self.checkThread = function(threadId){
@@ -272,10 +296,9 @@ var SampleApp = function() {
 		if(res.statusCode==302&&res.headers.location!==undefined){
 		  var postId = res.headers.location.split('#')[1];
 		  var thread = watchedThreads[threadId];
-		  if(thread.newPost!==postId){
-		    thread.oldPost = thread.newPost;
-			thread.newPost = postId;
+		  if(thread!==postId){
 			updatedThreads[threadId]=postId;
+			watchedThreads[threadId]=postId;
 		  }			
 		}
 	  });
