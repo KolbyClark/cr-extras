@@ -239,14 +239,17 @@ var SampleApp = function() {
 	  });
 	};
 	self.startThread = function(){
-	  
-	  threadWatcher = setInterval(self.processThreadStack,1000);
-	  updatePusher = setInterval(self.pushThreadUpdates,30000);
-	  console.log('started thread');
+	  if(threadWatcher === undefined && updatePuser === undeinfed){
+	    threadWatcher = setInterval(self.processThreadStack,1000);
+	    updatePusher = setInterval(self.pushThreadUpdates,30000);
+	    console.log('started thread');
+	  }
 	};
 	self.stopThread = function(){
 	  clearInterval(threadWatcher);
 	  clearInterval(updatePusher);
+	  threadWatcher = undefined;
+	  updatePusher = undefined;
 	  console.log('stopped thread?');
 	};
 	self.pushThreadUpdates = function(){
