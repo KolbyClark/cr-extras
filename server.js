@@ -219,12 +219,12 @@ var SampleApp = function() {
 	  
 	  threadWatcher = setInterval(self.processThreadStack,1000);
 	  updatePusher = setInterval(self.pushThreadUpdates,30000);
-	  //console.log('started thread');
+	  console.log('started thread: ','threadWatcher: ',threadWatcher,'updatePusher: ',updatePusher);
 	};
 	self.stopThread = function(){
 	  clearInterval(threadWatcher);
 	  clearInterval(updatePusher);
-	  console.log('stopped thread?');
+	  console.log('stopped thread?','threadWatcher: ',threadWatcher,'updatePusher: ',updatePusher);
 	};
 	self.pushThreadUpdates = function(){
 	  for(var x=0;x<threadWatchers.length;x++){
