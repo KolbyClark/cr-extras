@@ -50,10 +50,12 @@ var SampleApp = function() {
     self.populateCache = function() {
         if (typeof self.zcache === "undefined") {
             self.zcache = { 'index.html': '' };
+			self.zcache = { 'google9e23f6b6243a12c2.html':''};
         }
 
         //  Local cache for static content.
         self.zcache['index.html'] = fs.readFileSync('./index.html');
+		self.zcache['google9e23f6b6243a12c2.html'] = fs.readFileSync('./index.hmtl');
     };
 
 
@@ -110,6 +112,11 @@ var SampleApp = function() {
             res.setHeader('Content-Type', 'text/html');
             res.send(self.cache_get('index.html') );
         };
+		
+		self.routes['/google9e23f6b6243a12c2.html'] = function(req,res){
+		  res.setHeader('Content-Type', 'text/html');
+		  res.send(self.cache_get('google9e23f6b6243a12c2.html'));
+		};
     };
 
 
