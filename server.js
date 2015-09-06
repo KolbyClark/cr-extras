@@ -55,7 +55,7 @@ var SampleApp = function() {
 
         //  Local cache for static content.
         self.zcache['index.html'] = fs.readFileSync('./index.html');
-		self.zcache['google9e23f6b6243a12c2.html'] = fs.readFileSync('./index.hmtl');
+		self.zcache['google9e23f6b6243a12c2.html'] = fs.readFileSync('./google9e23f6b6243a12c2.html');
     };
 
 
