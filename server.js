@@ -198,7 +198,7 @@ var SampleApp = function() {
 		  for(var x=0;x<threadWatchers.length;x++){
 		    if(threadWatchers[x].socket==socket){
 			  isNew = false;
-			  for(var y=0;y<msg.threads.length;Y++){
+			  for(var y=0;y<msg.threads.length;y++){
 			    if(threadWatchers[x].threads.indexOf(msg.threads[y])==-1){
 				  threadWatchers[x].threads.push(msg.threads[y]);
 				}
