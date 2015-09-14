@@ -269,9 +269,9 @@ var SampleApp = function() {
 	};
 	self.processThreadStack = function(){
 	  if(threadStack.length > 0){
-	    var temp = threadStack[0];
-	    threadStack.push(threadStack.splice(0,1)[0]);
+	    var temp = threadStack.splice(0,1)[0];
 	    self.checkThread(temp);
+		threadStack.push(temp);
 	  }
 	};
 	self.addThread = function(threadId){
