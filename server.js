@@ -302,9 +302,10 @@ var SampleApp = function() {
 	  var req = http.request(options, function(res){
 	    console.log('url:'+url);
 	    console.log('Status: '+res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers.location));
+		//console.log('HEADERS: ' + JSON.stringify(res.headers.location));
 		if(res.statusCode==302&&res.headers.location!==undefined){
 		  var postId = res.headers.location.split('#')[1];
+		  console.log('Post ID: '+postId);
 		  var thread = watchedThreads[threadId];
 		  if(thread!==postId){
 			updatedThreads[threadId]=postId;
