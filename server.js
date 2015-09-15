@@ -240,8 +240,8 @@ var SampleApp = function() {
 	};
 	self.startThread = function(){
 	  if(threadWatcher === undefined && updatePusher === undefined){
-	    threadWatcher = setInterval(self.processThreadStack,3000);
-	    updatePusher = setInterval(self.pushThreadUpdates,30000);
+	    threadWatcher = setInterval(self.processThreadStack,1500);
+	    updatePusher = setInterval(self.pushThreadUpdates,3000);
 	    console.log('started thread');
 	  }
 	};
