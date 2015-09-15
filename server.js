@@ -300,7 +300,7 @@ var SampleApp = function() {
 		method: 'HEAD'
 	  };
 	  var req = http.request(options, function(res){
-	    console.log('url:'+url);
+	    console.log('Url:'+url);
 	    console.log('Status: '+res.statusCode);
 		//console.log('HEADERS: ' + JSON.stringify(res.headers.location));
 		if(res.statusCode==302&&res.headers.location!==undefined){
