@@ -297,7 +297,8 @@ var SampleApp = function() {
 	    hostname: 'www.crunchyroll.com',
 		port: 80,
 		path: url,
-		method: 'HEAD'
+		method: 'HEAD',
+		agent:false
 	  };
 	  var req = http.request(options, function(res){
 	    console.log('Url:'+url);
