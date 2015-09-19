@@ -306,7 +306,7 @@ var SampleApp = function() {
 		//console.log('HEADERS: ' + JSON.stringify(res.headers.location));
 		if(res.statusCode==302&&res.headers.location!==undefined){
 		  var postId = res.headers.location.split('#')[1];
-		  console.log('Thread Id :'+threadId+' Post ID: '+postId);
+		  console.log(threadId+' : '+postId);
 		  var thread = watchedThreads[threadId];
 		  if(thread!==postId){
 			updatedThreads[threadId]=postId;
