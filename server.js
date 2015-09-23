@@ -186,8 +186,8 @@ var SampleApp = function() {
 		  socket.emit('data',{data:self.getLiveData()});
 		});
 		socket.on('pushData', function(message){
-		  self.updateLiveData(message.data);
-		  socket.broadcast.emit('pushData',{data:message.data});
+		  self.updateLiveData(message);
+		  socket.broadcast.emit('pushData',{data:message});
 		});
 		socket.on('clearData', function(){
 		  self.clearLiveData();
