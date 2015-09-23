@@ -24,6 +24,7 @@ var SampleApp = function() {
 	var threadWatcher,updatePusher;
 	var userConnects = [];
 	var userDisconnects = [];
+	var currentViewers = 0;
 	
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -176,8 +177,11 @@ var SampleApp = function() {
     };
 	self.startSocket = function() {
 	  self.io = socketio.listen(self.server);
-	  self.livesocket = self.io.of('/live');
+	  self.livesocket = self.io.of('/livestream');
 	  self.livesocket.on('connection', function(socket){
+	    socket.on('initViewers', function(message){
+		  currentViewers = message.viewers;
+		});
 	    socket.on('getData', function(message){
 		  socket.emit('data',{data:self.getLiveData()});
 		});
@@ -346,19 +350,22 @@ var SampleApp = function() {
 	  console.log('Updating Livestream Data.');
 	  for(var x=0;x<data.connects.length;x++){
 	    userConnects.push(data.connects[x]);
+		currentViewers++;
 	  }
 	  for(var x=0;x<data.disconnects.length;x++){
 	    userDisconnects.push(data.disconnects[x]);
+		currentViewers--;
 	  }
 	};
 	self.getLiveData = function(){
 	  console.log('Getting Livestream Data.');
-	  return {connects:userConnects,disconnects:userDisconnects};
+	  return currentViewers;
 	};
 	self.clearLiveData = function(){
 	  console.log('Clearing Livestream Data.');
 	  userConnects = [];
 	  userDisconnects = [];
+	  curretnViewers = 0;
 	};
 	
 	
