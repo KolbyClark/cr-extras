@@ -39,7 +39,7 @@
                 setInterval(function () {
                   var x = (new Date()).getTime(), // current time
                       y = Math.floor(Math.random()*60)+30;
-                  series.addPoint([x, y]);
+                  series.addPoint([x, y],true);
                 }, 2000);
               }
             }
@@ -122,7 +122,7 @@
                 setInterval(function () {
                   var x = (new Date()).getTime(), // current time
                       y = Math.floor(Math.random()*60)+30;
-                  series.addPoint([x, y]);
+                  series.addPoint([x, y],true);
                 }, 2000);
               }
             }
@@ -205,7 +205,7 @@
                 setInterval(function () {
                   var x = (new Date()).getTime(), // current time
                       y = Math.floor(Math.random()*-60)-30;
-                  series.addPoint([x, y]);
+                  series.addPoint([x, y],true);
                 }, 2000);
               }
             }
