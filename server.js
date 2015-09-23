@@ -24,7 +24,7 @@ var SampleApp = function() {
 	var threadWatcher,updatePusher;
 	var userConnects = [];
 	var userDisconnects = [];
-	var currentViewers = 0;
+	var currentViewers = 10;
 	
     /*  ================================================================  */
     /*  Helper functions.                                                 */

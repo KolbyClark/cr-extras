@@ -18,6 +18,7 @@
 	<div id="disconnects" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 	
 	<script>
+	  var socket;
 	  $(function () {
 	    Highcharts.setOptions({
           global: {
@@ -276,7 +277,7 @@
             pointinterval: 60 * 60 * 1000
           }]
         });
-	    var socket = io.connect("http://nodetest-beardfist.rhcloud.com:8000/livestream");
+	    socket = io.connect("http://nodetest-beardfist.rhcloud.com:8000/livestream");
 		var chart = Highcharts.charts[0];
 		var connectsChart = Highcharts.charts[1];
 		var disconnectChart = Highcharts.charts[2];
