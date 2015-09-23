@@ -128,7 +128,7 @@ var SampleApp = function() {
 		};
 		
 		self.routes['/highcharts-custom.js'] = function(req,res){
-		  res.send(self.cache_get('highcharts-custom.js');
+		  res.send(self.cache_get('highcharts-custom.js'));
 		};
     };
 
