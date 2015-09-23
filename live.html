@@ -204,7 +204,7 @@
                 var series = this.series[0];
                 setInterval(function () {
                   var x = (new Date()).getTime(), // current time
-                      y = -Math.floor(Math.random()*60)-30;
+                      y = Math.floor(Math.random()*-60)-30;
                   series.addPoint([x, y]);
                 }, 2000);
               }
@@ -242,7 +242,7 @@
           },
           plotOptions: {
             areaspline: {
-              negativefillColor: {
+              negativeColor: {
                 linearGradient: {
                   x1: 0,
                   y1: 0,
