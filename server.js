@@ -59,6 +59,7 @@ var SampleApp = function() {
         self.zcache['index.html'] = fs.readFileSync('./index.html');
 		self.zcache['google9e23f6b6243a12c2.html'] = fs.readFileSync('./google9e23f6b6243a12c2.html');
 		self.zcache['live.html'] = fs.readFileSync('./live.html');
+		self.zcache['highcharts-custom.js'] = fs.readFileSync('./highcharts-custom.js');
     };
 
 
@@ -124,6 +125,10 @@ var SampleApp = function() {
 		self.routes['/live'] = function(req,res){
 		  res.setHeader('Content-Type', 'text/html');
 		  res.send(self.cache_get('live.html'));
+		};
+		
+		self.routes['/highcharts-custom.js'] = function(req,res){
+		  res.send(self.cache_get('highcharts-custom.js');
 		};
     };
 
