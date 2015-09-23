@@ -282,7 +282,7 @@
 		var connectsChart = Highcharts.charts[1];
 		var disconnectChart = Highcharts.charts[2];
 		var currentViewers = 0;
-		socket.on('getData', function(msg){
+		socket.on('data', function(msg){
 		  console.log("Got data",msg);
 		  currentViewers = msg.viewers;
 		  var d = Date.now();
