@@ -358,7 +358,7 @@ var SampleApp = function() {
 	  }
 	};
 	self.getLiveData = function(){
-	  console.log('Getting Livestream Data.');
+	  console.log('Getting Livestream Data.',currentViewers);
 	  return currentViewers;
 	};
 	self.clearLiveData = function(){
