@@ -287,8 +287,8 @@
 		  currentViewers += msg.connects.length - msg.disconnects.length;
 		  var d = Date.now();
 		  chart.get('users').addPoint([d,currentViewers],true);
-		  connectChart.get('users').addPoint([d,msg.connects.length])
-		  disconnectChart.get('users').addPoint(
+		  connectChart.get('users').addPoint([d,msg.connects.length]);
+		  disconnectChart.get('users').addPoint([d,msg.disconnects.length]);
 		});
 		socket.emit('getData');
 		
