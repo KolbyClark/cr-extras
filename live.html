@@ -241,7 +241,7 @@
           },
           plotOptions: {
             areaspline: {
-              negativeColor: {
+              negativeColor: /*{
                 linearGradient: {
                   x1: 0,
                   y1: 1,
@@ -252,7 +252,7 @@
                   [0, Highcharts.getOptions().colors[3]],
                   [1, Highcharts.Color(Highcharts.getOptions().colors[3]).setOpacity(0).get('rgba')]
                 ]
-              },
+              },*/Highcharts.getOptions().colors[3],
               marker: {
                 radius: 2
               },
@@ -287,6 +287,8 @@
 		  currentViewers += msg.connects.length - msg.disconnects.length;
 		  var d = Date.now();
 		  chart.get('users').addPoint([d,currentViewers],true);
+		  connectChart.get('users').addPoint([d,msg.connects.length])
+		  disconnectChart.get('users').addPoint(
 		});
 		socket.emit('getData');
 		
