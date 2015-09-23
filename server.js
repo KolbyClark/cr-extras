@@ -22,6 +22,8 @@ var SampleApp = function() {
 	var updatedThreads = [];
 	var activeThreads = [];
 	var threadWatcher,updatePusher;
+	var userConnects = [];
+	var userDisconnects = [];
 	
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -56,6 +58,7 @@ var SampleApp = function() {
         //  Local cache for static content.
         self.zcache['index.html'] = fs.readFileSync('./index.html');
 		self.zcache['google9e23f6b6243a12c2.html'] = fs.readFileSync('./google9e23f6b6243a12c2.html');
+		self.zcache['livestream.html'] = fs.readFileSync('./livestream.html');
     };
 
 
@@ -117,6 +120,11 @@ var SampleApp = function() {
 		  res.setHeader('Content-Type', 'text/html');
 		  res.send(self.cache_get('google9e23f6b6243a12c2.html'));
 		};
+		
+		self.routes['/live'] = function(req,res){
+		  res.setHeader('Content-Type', 'text/html');
+		  res.send(self.cache_get('live.html'));
+		};
     };
 
 
@@ -163,6 +171,19 @@ var SampleApp = function() {
     };
 	self.startSocket = function() {
 	  self.io = socketio.listen(self.server);
+	  self.livesocket = self.io.of('/live');
+	  self.livesocket.on('connection', function(socket){
+	    socket.on('getData', function(message){
+		  socket.emit('data',{data:self.getLiveData()});
+		});
+		socket.on('pushData', function(message){
+		  self.updateLiveData(message.data);
+		  socket.broadcast.emit('pushData',{data:message.data});
+		});
+		socket.on('clearData', function(){
+		  self.clearLiveData();
+		});
+	  });
 	  self.io.sockets.on('connection', function(socket){
 	    socket.join('default');
 	    socket.on('message', function(message){
@@ -315,6 +336,24 @@ var SampleApp = function() {
 		}
 	  });
 	  req.end();
+	};
+	self.updateLiveData = function(data){
+	  console.log('Updating Livestream Data.');
+	  for(var x=0;x<data.connects.length;x++){
+	    userConnects.push(data.connects[x]);
+	  }
+	  for(var x=0;x<data.disconnects.length;x++){
+	    userDisconnects.push(data.disconnects[x]);
+	  }
+	};
+	self.getLiveData = function(){
+	  console.log('Getting Livestream Data.');
+	  return {connects:userConnects,disconnects:userDisconnects};
+	};
+	self.clearLiveData = function(){
+	  console.log('Clearing Livestream Data.');
+	  userConnects = [];
+	  userDisconnects = [];
 	};
 	
 	
