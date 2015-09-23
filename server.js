@@ -332,11 +332,11 @@ var SampleApp = function() {
 	  };
 	  var req = http.request(options, function(res){
 	    //console.log('Url:'+url);
-	    console.log('Status: '+res.statusCode);
+	    //console.log('Status: '+res.statusCode);
 		//console.log('HEADERS: ' + JSON.stringify(res.headers.location));
 		if(res.statusCode==302&&res.headers.location!==undefined){
 		  var postId = res.headers.location.split('#')[1];
-		  console.log(threadId+' : '+postId);
+		  //console.log(threadId+' : '+postId);
 		  var thread = watchedThreads[threadId];
 		  if(thread!==postId){
 			updatedThreads[threadId]=postId;
