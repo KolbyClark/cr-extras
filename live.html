@@ -14,102 +14,279 @@
     <script src="highcharts-custom.js"></script>
 	
 	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="connects" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="disconnects" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 	
 	<script>
 	  $(function () {
-	      Highcharts.setOptions({
-            global: {
-              useUTC: false
+	    Highcharts.setOptions({
+          global: {
+            useUTC: false
+          }
+        });
+        $('#container').highcharts({
+          chart: {
+            type: 'spline',
+            zoomType: 'x',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10,
+            panning: true,
+            panKey: 'shift',
+			events: {
+              load: function () {
+              // set up the updating of the chart each second
+                var series = this.series[0];
+                setInterval(function () {
+                  var x = (new Date()).getTime(), // current time
+                      y = Math.floor(Math.random()*60)+30;
+                  series.addPoint([x, y]);
+                }, 2000);
+              }
             }
-          });
-
-          $('#container').highcharts({
-            chart: {
-              type: 'spline',
-              zoomType: 'x',
-              animation: Highcharts.svg, // don't animate in old IE
-              marginRight: 10,
-              panning: true,
-              panKey: 'shift',
-              events: {
-                load: function () {
-                // set up the updating of the chart each second
-                  var series = this.series[0];
-                  setInterval(function () {
-                    var x = (new Date()).getTime(), // current time
-                        y = Math.floor(Math.random()*60)+30;
-                    series.addPoint([x, y]);
-                  }, 2000);
-                }
-              }
-            },
+          },
+          title: {
+            text: 'Live random data'
+          },
+          xAxis: {
+            type: 'datetime'
+          },
+          yAxis: {
             title: {
-              text: 'Live random data'
+              text: 'Users'
             },
-            xAxis: {
-              type: 'datetime'
-            },
-            yAxis: {
-              title: {
-                text: 'Users'
-              },
-              plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-              }]
-            },
-            tooltip: {
-              formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
-                       Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                       Highcharts.numberFormat(this.y, 0);
-              }
-            },
-            legend: {
-              enabled: false
-            },
-            exporting: {
-              enabled: true
-            },
-            plotOptions: {
-              areaspline: {
-                fillColor: {
-                  linearGradient: {
-                    x1: 0,
-                    y1: 0,
-                    x2: 0,
-                    y2: 1
-                  },
-                  stops: [
-                    [0, Highcharts.getOptions().colors[0]],
-                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                  ]
-                },
-                marker: {
-                  radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                  hover: {
-                    lineWidth: 1
-                  }
-                },
-                threshold: null
-              }
-            },
-            series: [{
-              name: 'Users Viewing',
-              type: 'areaspline',
-			  id: 'users',
-              data: [],
-              pointinterval: 60 * 60 * 1000
+            plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#808080'
             }]
-          });
-        	    
+          },
+          tooltip: {
+            formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+                     Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                     Highcharts.numberFormat(this.y, 0);
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          exporting: {
+            enabled: true
+          },
+          plotOptions: {
+            areaspline: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+              },
+              marker: {
+                radius: 2
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1
+                }
+              },
+              threshold: null
+            }
+          },
+          series: [{
+            name: 'Users Viewing',
+            type: 'areaspline',
+            id: 'users',
+            data: [],
+            pointinterval: 60 * 60 * 1000
+          }]
+        });
+        $('#connects').highcharts({
+          chart: {
+            type: 'spline',
+            zoomType: 'x',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10,
+            panning: true,
+            panKey: 'shift',
+			events: {
+              load: function () {
+              // set up the updating of the chart each second
+                var series = this.series[0];
+                setInterval(function () {
+                  var x = (new Date()).getTime(), // current time
+                      y = Math.floor(Math.random()*60)+30;
+                  series.addPoint([x, y]);
+                }, 2000);
+              }
+            }
+          },
+          title: {
+            text: 'Live random data'
+          },
+          xAxis: {
+            type: 'datetime'
+          },
+          yAxis: {
+            title: {
+              text: 'Users'
+            },
+            plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }]
+          },
+          tooltip: {
+            formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+                     Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                     Highcharts.numberFormat(this.y, 0);
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          exporting: {
+            enabled: true
+          },
+          plotOptions: {
+            areaspline: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[2]],
+                  [1, Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0).get('rgba')]
+                ]
+              },
+              marker: {
+                radius: 2
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1
+                }
+              },
+              threshold: null
+            }
+          },
+          series: [{
+            name: 'Users Viewing',
+            type: 'areaspline',
+            id: 'users',
+            data: [],
+            pointinterval: 60 * 60 * 1000
+          }]
+        });
+		$('#disconnects').highcharts({
+          chart: {
+            type: 'spline',
+            zoomType: 'x',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10,
+            panning: true,
+            panKey: 'shift',
+			events: {
+              load: function () {
+              // set up the updating of the chart each second
+                var series = this.series[0];
+                setInterval(function () {
+                  var x = (new Date()).getTime(), // current time
+                      y = Math.floor(Math.random()*60)+30;
+                  series.addPoint([x, y]);
+                }, 2000);
+              }
+            }
+          },
+          title: {
+            text: 'Live random data'
+          },
+          xAxis: {
+            type: 'datetime'
+          },
+          yAxis: {
+            title: {
+              text: 'Users'
+            },
+            plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }]
+          },
+          tooltip: {
+            formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+                     Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                     Highcharts.numberFormat(this.y, 0);
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          exporting: {
+            enabled: true
+          },
+          plotOptions: {
+            areaspline: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[3]],
+                  [1, Highcharts.Color(Highcharts.getOptions().colors[3]).setOpacity(0).get('rgba')]
+                ]
+              },
+              marker: {
+                radius: 2
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1
+                }
+              },
+              threshold: null
+            }
+          },
+          series: [{
+            name: 'Users Viewing',
+            type: 'areaspline',
+            id: 'users',
+            data: [],
+            pointinterval: 60 * 60 * 1000
+          }]
+        });
 	    var socket = io.connect("http://nodetest-beardfist.rhcloud.com:8000/livestream");
+		var chart = Highcharts.charts[0];
+		var connectsChart = Highcharts.charts[1];
+		var disconnectChart = Highcharts.charts[2];
+		var currentViewers = 0;
 		socket.on('getData', function(msg){
-		
+		  currentViewers = msg.viewers;
+		  var d = Date.now();
+		  chart.get('users').addPoint([d,currentViewers],true);
+		});
+		socket.on('pushData', function(msg){
+		  currentViewers += msg.connects.length - msg.disconnects.length;
+		  var d = Date.now();
+		  chart.get('users').addPoint([d,currentViewers],true);
 		});
 		socket.emit('getData');
 		
