@@ -284,7 +284,7 @@
 		var currentViewers = 0;
 		socket.on('data', function(msg){
 		  console.log("Got data",msg);
-		  currentViewers = msg.viewers;
+		  currentViewers = msg.data;
 		  var d = Date.now();
 		  chart.get('users').addPoint([d,currentViewers],true);
 		});
