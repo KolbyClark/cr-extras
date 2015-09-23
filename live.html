@@ -45,7 +45,7 @@
             }
           },
           title: {
-            text: 'Live random data'
+            text: 'Total Viewers'
           },
           xAxis: {
             type: 'datetime'
@@ -128,7 +128,7 @@
             }
           },
           title: {
-            text: 'Live random data'
+            text: 'Connections'
           },
           xAxis: {
             type: 'datetime'
@@ -204,14 +204,14 @@
                 var series = this.series[0];
                 setInterval(function () {
                   var x = (new Date()).getTime(), // current time
-                      y = Math.floor(Math.random()*60)+30;
+                      y = -Math.floor(Math.random()*60)+30;
                   series.addPoint([x, y]);
                 }, 2000);
               }
             }
           },
           title: {
-            text: 'Live random data'
+            text: 'Disconnections'
           },
           xAxis: {
             type: 'datetime'
