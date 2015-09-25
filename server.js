@@ -232,7 +232,7 @@ var SampleApp = function() {
 		  self.saveLiveData();
 		});
 		socket.on('getOldData', function(){
-		  LiveData.find({ name: { $exists: true }},function(err,docs){
+		  LiveData.find({ date: { $exists: true }},function(err,docs){
 		    if(err) console.log(err);
 			socket.emit('oldData',docs);
 		  });
