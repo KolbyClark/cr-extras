@@ -239,7 +239,7 @@ var SampleApp = function() {
 		});
 		socket.on('deleteData', function(msg){
 		  self.deleteLiveData(msg.date);
-		)};
+		});
 	  });
 	  self.io.sockets.on('connection', function(socket){
 	    socket.join('default');
