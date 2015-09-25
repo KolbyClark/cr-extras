@@ -256,7 +256,7 @@
         $('<div id="master-container">').css({position: 'absolute',top: 300,height: 100,width: '100%'}).appendTo($container);
 	  }
 	  function processViewerData(i){
-	    var data = oldLiveData[i];
+	    var data = oldData[i];
 		var connectObj = {},disconnectObj = {},totalViewers=data.initialViewers,viewers = [];
 		for(var x=0;x<data.connects.length;x+=1000){
 		  if(connectObj[data.connects[x].time]!==undefined)
