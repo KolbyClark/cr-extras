@@ -395,7 +395,7 @@ var SampleApp = function() {
 	  req.end();
 	};
 	self.updateLiveData = function(data){
-	  console.log('Updating Livestream Data.');
+	  //console.log('Updating Livestream Data.');
 	  for(var x=0;x<data.connects.length;x++){
 	    userConnects.push(data.connects[x]);
 		currentViewers++;
