@@ -41,7 +41,7 @@
 		
 	  });
 	  
-	  function createDetail(masterChart) {
+	  function createDetail(masterChart,data) {
 
                 // prepare the detail chart
                 var detailData = [],
@@ -244,7 +244,7 @@
                     }
 
                 }, function (masterChart) {
-                    createDetail(masterChart);
+                    createDetail(masterChart,detailData);
                 })
                     .highcharts(); // return chart instance
             }
