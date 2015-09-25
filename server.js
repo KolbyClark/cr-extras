@@ -146,9 +146,9 @@ var SampleApp = function() {
 		  res.send(self.cache_get('live.html'));
 		};
 		
-		self.routes['/pastLiveData'] = function(req,res){
+		self.routes['/oldLiveData'] = function(req,res){
 		  res.setHeader('Content-Type', 'text/html');
-		  res.send(self.cache_get('pastLiveData.html'));
+		  res.send(self.cache_get('oldLiveData.html'));
 		};
 		
 		self.routes['/highcharts-custom.js'] = function(req,res){
