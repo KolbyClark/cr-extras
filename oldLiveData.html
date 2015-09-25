@@ -149,7 +149,7 @@
                                 xAxis.removePlotBand('mask-before');
                                 xAxis.addPlotBand({
                                     id: 'mask-before',
-                                    from: data[0][0],
+                                    from: livedata[0][0],
                                     to: min,
                                     color: 'rgba(0, 0, 0, 0.2)'
                                 });
@@ -158,7 +158,7 @@
                                 xAxis.addPlotBand({
                                     id: 'mask-after',
                                     from: max,
-                                    to: data[data.length - 1][0],
+                                    to: livedata[livedata.length - 1][0],
                                     color: 'rgba(0, 0, 0, 0.2)'
                                 });
 
@@ -178,8 +178,8 @@
                         maxZoom: 24 * 3600000, // fourteen days
                         plotBands: [{
                             id: 'mask-before',
-                            from: data[0][0],
-                            to: data[data.length - 1][0],
+                            from: livedata[0][0],
+                            to: livedata[livedata.length - 1][0],
                             color: 'rgba(0, 0, 0, 0.2)'
                         }],
                         title: {
@@ -235,7 +235,7 @@
                         type: 'area',
                         name: 'viewers',
                         pointInterval: 24 * 3600 * 1000,
-                        pointStart: data[0][0],
+                        pointStart: livedata[0][0],
                         data: livedata
                     }],
 
