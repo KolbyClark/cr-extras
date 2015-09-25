@@ -32,7 +32,7 @@
             animation: Highcharts.svg, // don't animate in old IE
             marginRight: 10,
             panning: true,
-            panKey: 'shift',
+            panKey: 'shift'/*,
 			events: {
               load: function () {
               // set up the updating of the chart each second
@@ -43,7 +43,7 @@
                   series.addPoint([x, y],true);
                 }, 2000);
               }
-            }
+            }*/
           },
           title: {
             text: 'Total Viewers'
@@ -116,7 +116,7 @@
             animation: Highcharts.svg, // don't animate in old IE
             marginRight: 10,
             panning: true,
-            panKey: 'shift',
+            panKey: 'shift'/*,
 			events: {
               load: function () {
               // set up the updating of the chart each second
@@ -127,7 +127,7 @@
                   series.addPoint([x, y],true);
                 }, 2000);
               }
-            }
+            }*/
           },
           title: {
             text: 'Connections'
@@ -200,7 +200,7 @@
             animation: Highcharts.svg, // don't animate in old IE
             marginRight: 10,
             panning: true,
-            panKey: 'shift',
+            panKey: 'shift'/*,
 			events: {
               load: function () {
               // set up the updating of the chart each second
@@ -211,7 +211,7 @@
                   series.addPoint([x, y],true);
                 }, 2000);
               }
-            }
+            }*/
           },
           title: {
             text: 'Disconnections'
@@ -248,9 +248,9 @@
               fillColor: {
                 linearGradient: {
                   x1: 0,
-                  y1: 1,
+                  y1: 0,
                   x2: 0,
-                  y2: 0
+                  y2: 1
                 },
                 stops: [
                   [0, Highcharts.getOptions().colors[3]],
@@ -293,8 +293,8 @@
 		  currentViewers += msg.data.connects.length - msg.data.disconnects.length;
 		  var d = Date.now();
 		  chart.get('users').addPoint([d,currentViewers],true);
-		  connectChart.get('users').addPoint([d,msg.data.connects.length]);
-		  disconnectChart.get('users').addPoint([d,-1*(msg.data.disconnects.length)]);
+		  connectChart.get('users').addPoint([d,msg.data.connects.length],true);
+		  disconnectChart.get('users').addPoint([d,msg.data.disconnects.length],true);
 		});
 		socket.emit('getData');
 		
