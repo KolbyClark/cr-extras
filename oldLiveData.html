@@ -25,9 +25,11 @@
 	    socket = io.connect("http://nodetest-beardfist.rhcloud.com:8000/livestream");
 		socket.on('oldData', function(msg){
 		  if(msg!==null&&msg.length>0){
+		    console.log(msg);
 		    oldData = msg;
 		    for(var x=0;x<msg.length;x++){
-			  $('#select').append('<option value="'x'">'+(new Date(msg[x].date)).toLocaleDateString()+'</option>');
+			  var d = new Date(msg[x].date)
+			  $('#select').append('<option value="'x'">'+d.toLocaleDateString()+'</option>');
 			}
 		  }
 		});
