@@ -238,7 +238,7 @@ var SampleApp = function() {
 		  });
 		});
 		socket.on('deleteData', function(msg){
-		  self.deleteData(msg.date);
+		  self.deleteLiveData(msg.date);
 		)};
 	  });
 	  self.io.sockets.on('connection', function(socket){
