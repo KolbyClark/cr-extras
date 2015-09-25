@@ -429,7 +429,7 @@ var SampleApp = function() {
 	    if(err)console.log(err);
 	  });
 	};
-	self.updateLiveData = function(d,info){
+	self.updateData = function(d,info){
 	  LiveData.update({$and:[{date:{$gt:d}},{date:{$lt:d+86400000}}]},info).exec(function(err){
 	    if(err)console.log(err);
 	  });
