@@ -272,7 +272,7 @@
 		    disconnectObj[data.disconnects[x].time] = [data.disconnects[x].username];
 		}
 		var x = data.connects[0].time<data.disconnects[0].time?data.connects[0].time:data.disconnects[0].time;
-		var y = data.connects[0].time>data.disconnects[0].time?data.connects[0].time:data.disconnects[0].time;
+		var y = data.connects[data.connects.length-1].time>data.disconnects[data.disconnects.length-1].time?data.connects[data.connects.length-1].time:data.disconnects[data.disconnects.length-1].time;
 		for(;x<y;x+=1000){
 		  var temp = totalViewers;
 		  if(connectObj[x]!==undefined)
