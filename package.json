@@ -1,6 +1,6 @@
 {
   "name": "Beardfist-Test",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A test to learn node",
   "keywords": [
     "Node.js",
@@ -24,7 +24,8 @@
 
   "dependencies": {
     "express": "~4.0.0",
-	"socket.io": "~1.3.6"
+	"socket.io": "~1.3.6",
+	"mongoose": "~4.0.0"
   },
   "devDependencies": {},
   "bundleDependencies": [],

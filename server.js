@@ -5,7 +5,8 @@ var fs      = require('fs');
 var socketio = require('socket.io');
 var crypto  = require('crypto');
 var http = require('http');
-
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 /**
  *  Define the sample application.
@@ -24,7 +25,8 @@ var SampleApp = function() {
 	var threadWatcher,updatePusher;
 	var userConnects = [];
 	var userDisconnects = [];
-	var currentViewers = 10;
+	var currentViewers = 0,initialViewers = 0;
+	var liveSchema,LiveData;
 	
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -44,6 +46,21 @@ var SampleApp = function() {
             console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
             self.ipaddress = "127.0.0.1";
         };
+		liveSchema = new Schema({
+		  date : {type: Date, default: Date.now},
+		  connects: [{username: String, time: Date}],
+		  disconnects: [{username: String, time: Date}],
+		  initalViewers: Number
+		});
+		liveSchema.virtual('data').set(function(data){
+		  this.connects = data.connects;
+		  this.disconnects = data.disconnects;
+		});
+		liveSchema.virtual('data').get(function(){
+		  return {connects:this.connects,disconnects:this.disconnects,initalViewers:this.initalViewers};
+		});
+		LiveData = mongoose.model('LiveData',liveSchema);
+		
     };
 
 
@@ -61,6 +78,7 @@ var SampleApp = function() {
 		self.zcache['google9e23f6b6243a12c2.html'] = fs.readFileSync('./google9e23f6b6243a12c2.html');
 		self.zcache['live.html'] = fs.readFileSync('./live.html');
 		self.zcache['highcharts-custom.js'] = fs.readFileSync('./highcharts-custom.js');
+		self.zcache['oldLiveData.html'] = fs.readFileSync('./oldLiveData.html');
     };
 
 
@@ -128,6 +146,11 @@ var SampleApp = function() {
 		  res.send(self.cache_get('live.html'));
 		};
 		
+		self.routes['/pastLiveData'] = function(req,res){
+		  res.setHeader('Content-Type', 'text/html');
+		  res.send(self.cache_get('pastLiveData.html'));
+		};
+		
 		self.routes['/highcharts-custom.js'] = function(req,res){
 		  res.send(self.cache_get('highcharts-custom.js'));
 		};
@@ -148,6 +171,18 @@ var SampleApp = function() {
         }
 		
     };
+	
+	self.initializeMongo = function(){
+	  var connection_string = "";
+	  if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+        connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+                            process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+                            process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+                            process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+                            process.env.OPENSHIFT_APP_NAME;
+      }
+	  mongoose.connect(connection_string);
+	};
 
 
     /**
@@ -160,6 +195,7 @@ var SampleApp = function() {
 
         // Create the express server and routes.
         self.initializeServer();
+		self.initializeMongo();
     };
 
 
@@ -173,7 +209,6 @@ var SampleApp = function() {
                         Date(Date.now() ), self.ipaddress, self.port);
         });
 		
-		
     };
 	self.startSocket = function() {
 	  self.io = socketio.listen(self.server);
@@ -181,6 +216,7 @@ var SampleApp = function() {
 	  self.livesocket.on('connection', function(socket){
 	    socket.on('initViewers', function(message){
 		  currentViewers = message.viewers;
+		  initialViewers = message.viewers;
 		});
 	    socket.on('getData', function(message){
 		  socket.emit('data',{data:self.getLiveData()});
@@ -192,6 +228,18 @@ var SampleApp = function() {
 		socket.on('clearData', function(){
 		  self.clearLiveData();
 		});
+		socket.on('saveData', function(){
+		  self.saveLiveData();
+		});
+		socket.on('getOldData', function(){
+		  LiveData.find({ name: { $exists: true }},function(err,docs){
+		    if(err) console.log(err);
+			socket.emit('oldData',docs);
+		  });
+		});
+		socket.on('deleteData', function(msg){
+		  self.deleteData(msg.date);
+		)};
 	  });
 	  self.io.sockets.on('connection', function(socket){
 	    socket.join('default');
@@ -367,10 +415,17 @@ var SampleApp = function() {
 	  userDisconnects = [];
 	  curretnViewers = 0;
 	};
-	
-	
-	
-	
+	self.saveLiveData = function(){
+	  var ld = LiveData({connects : userConnects,disconnects:userDisconnects,initialViewers:initialViewers});
+	  ld.save(function(err){
+	    if(err) console.log(err);
+	  });
+	};
+	self.deleteLiveData = function(d){
+	  LiveData.remove().where('date').gt(d).lt(d+86400000).exec(function(err){
+	    if(err)console.log(err);
+	  });
+	};
 	
 
 };   /*  Sample Application.  */
