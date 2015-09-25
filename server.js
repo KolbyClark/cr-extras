@@ -240,6 +240,9 @@ var SampleApp = function() {
 		socket.on('deleteData', function(msg){
 		  self.deleteLiveData(msg.date);
 		});
+		socket.on('updateData', function(msg){
+		  self.updateData(msg.date,msg.info);
+		});
 	  });
 	  self.io.sockets.on('connection', function(socket){
 	    socket.join('default');
@@ -423,6 +426,11 @@ var SampleApp = function() {
 	};
 	self.deleteLiveData = function(d){
 	  LiveData.remove().where('date').gt(d).lt(d+86400000).exec(function(err){
+	    if(err)console.log(err);
+	  });
+	};
+	self.updateLiveData = function(d,info){
+	  LiveData.update({$and:[{date:{$gt:d}},{date:{$lt:d+86400000}}]},info}).exec(function(err){
 	    if(err)console.log(err);
 	  });
 	};
