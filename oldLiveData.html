@@ -278,7 +278,7 @@
 		  if(connectObj[x]!==undefined)
 		    totalViewers+=connectObj[x].length;
 		  if(disconnectObj[x]!==undefined)
-		    totalViewers-=connectObj[x].length;
+		    totalViewers-=disconnectObj[x].length;
 	      if(temp !== totalViewers)
 		    viewers.push([x,totalViewers]);
 		}
