@@ -28,8 +28,7 @@
 		    console.log(msg);
 		    oldData = msg;
 		    for(var x=0;x<msg.length;x++){
-			  var d = new Date(msg[x].date);
-			  $('#select').append('<option value="'x'">'+d.toLocaleDateString()+'</option>');
+			  $('#select').append('<option value="'+x+'">'+(new Date(msg[x].date)).toLocaleDateString()+'</option>');
 			}
 		  }
 		});
