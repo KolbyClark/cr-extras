@@ -413,7 +413,7 @@ var SampleApp = function() {
 	  console.log('Clearing Livestream Data.');
 	  userConnects = [];
 	  userDisconnects = [];
-	  curretnViewers = 0;
+	  currentViewers = 0;
 	};
 	self.saveLiveData = function(){
 	  var ld = LiveData({connects : userConnects,disconnects:userDisconnects,initialViewers:initialViewers});
