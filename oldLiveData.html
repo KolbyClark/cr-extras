@@ -88,7 +88,7 @@
                     tooltip: {
                         formatter: function () {
                             var point = this.points[0];
-                            return '<b>' + point.series.name + '</b><br/>' + Highcharts.dateFormat('%A %B %e %Y', this.x) + ':<br/>' +
+                            return '<b>' + point.series.name + '</b><br/>' + Highcharts.dateFormat('%H:%M:%S', this.x) + ':<br/>' +
                                 point.y + ' Viewers connected';
                         },
                         shared: true
