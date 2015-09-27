@@ -50,7 +50,7 @@ var SampleApp = function() {
 		  date : {type: Date, default: Date.now},
 		  connects: [{username: String, time: Number}],
 		  disconnects: [{username: String, time: Number}],
-		  initalViewers: Number
+		  initalViewers: {type:Number, default: 0}
 		});
 		liveSchema.virtual('data').set(function(data){
 		  this.connects = data.connects;
