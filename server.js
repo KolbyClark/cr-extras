@@ -57,7 +57,7 @@ var SampleApp = function() {
 		  this.disconnects = data.disconnects;
 		});
 		liveSchema.virtual('data').get(function(){
-		  return {connects:this.connects,disconnects:this.disconnects,initalViewers:this.initalViewers};
+		  return {connects:this.connects,disconnects:this.disconnects,initialViewers:this.initialViewers};
 		});
 		LiveData = mongoose.model('LiveData',liveSchema);
 		
