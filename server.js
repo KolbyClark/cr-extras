@@ -57,7 +57,7 @@ var SampleApp = function() {
 		  this.disconnects = data.disconnects;
 		});
 		liveSchema.virtual('data').get(function(){
-		  return {connects:this.connects,disconnects:this.disconnects,initialViewers:this.initialViewers};
+		  return {connects:this.connects,disconnects:this.disconnects,initalViewers:this.initialViewers};
 		});
 		LiveData = mongoose.model('LiveData',liveSchema);
 		
@@ -419,7 +419,7 @@ var SampleApp = function() {
 	  currentViewers = 0;
 	};
 	self.saveLiveData = function(){
-	  var ld = LiveData({connects : userConnects,disconnects:userDisconnects,initialViewers:initialViewers});
+	  var ld = LiveData({connects : userConnects,disconnects:userDisconnects,initalViewers:initialViewers});
 	  ld.save(function(err){
 	    if(err) console.log(err);
 	  });
