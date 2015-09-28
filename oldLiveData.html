@@ -77,7 +77,8 @@
                         text: 'Viewer data for livestream'
                     },
                     xAxis: {
-                        type: 'datetime'
+                        type: 'datetime',
+						labels: {enabled:false},
                     },
                     yAxis: {
                         title: {
@@ -189,7 +190,6 @@
                             to: data[data.length - 1][0],
                             color: 'rgba(0, 0, 0, 0.2)'
                         }],
-						labels: {enabled:false},
                         title: {
                             text: null
                         }
