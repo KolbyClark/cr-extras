@@ -27,6 +27,7 @@ var SampleApp = function() {
 	var userDisconnects = [];
 	var currentViewers = 0,initialViewers = 0;
 	var liveSchema,LiveData;
+	var chatUsers = {};
 	
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -213,6 +214,15 @@ var SampleApp = function() {
 	self.startSocket = function() {
 	  self.io = socketio.listen(self.server);
 	  self.livesocket = self.io.of('/livestream');
+	  self.chatsocket = self.io.of('/chat');
+	  self.chatsocket.on('connection', function(socket){
+	    socket.on('setUsername', function(message){
+		  chatUsers[socket.id] = message.username;
+		});
+		socket.on('msg', function(message){
+		  socket.broadcast.emit('msg',{text:message,user:chatUsers[socket.id]});
+		});
+	  });
 	  self.livesocket.on('connection', function(socket){
 	    socket.on('initViewers', function(message){
 		  currentViewers = message.viewers;
@@ -249,8 +259,7 @@ var SampleApp = function() {
 	    socket.on('message', function(message){
 		  console.log('received message:', message);
 		  for(var x=0;x<socket.rooms.length;x++){
-		    if(socket.rooms[x]!==socket.id)
-		      self.io.to(socket.rooms[x]).emit('message',message);
+            socket.to(socket.rooms[x]).emit('message',message);
 		  }
 	    });
 		socket.on('createRoom', function(msg){
