@@ -220,7 +220,7 @@ var SampleApp = function() {
 		  chatUsers[socket.id] = message.username;
 		});
 		socket.on('msg', function(message){
-		  socket.broadcast.emit('msg',{text:message,user:chatUsers[socket.id]});
+		  chatsocket.emit('msg',{text:message,user:chatUsers[socket.id]});
 		});
 	  });
 	  self.livesocket.on('connection', function(socket){
@@ -292,7 +292,7 @@ var SampleApp = function() {
 			    if(threadWatchers[x].threads.indexOf(msg.threads[y])==-1){
 				  threadWatchers[x].threads.push(msg.threads[y]);
 				}
-				console.log('adding thread: ',msg.threads[y]);
+				//console.log('adding thread: ',msg.threads[y]);
 				self.addThread(msg.threads[y]);
 			  }
 			  break;
