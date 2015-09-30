@@ -220,7 +220,7 @@ var SampleApp = function() {
 		  chatUsers[socket.id] = message.username;
 		});
 		socket.on('msg', function(message){
-		  chatsocket.emit('msg',{text:message,user:chatUsers[socket.id]});
+		  self.chatsocket.emit('msg',{text:message,user:chatUsers[socket.id]});
 		});
 	  });
 	  self.livesocket.on('connection', function(socket){
