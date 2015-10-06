@@ -27,7 +27,8 @@ var SampleApp = function() {
 	var userDisconnects = [];
 	var currentViewers = 0,initialViewers = 0;
 	var liveSchema,LiveData;
-	var chatUsers = {};
+	var chatUsers = {},revlookup = {},threadChats = {},groupChats={},userChats = {},chatrooms = {};
+	
 	
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -218,9 +219,75 @@ var SampleApp = function() {
 	  self.chatsocket.on('connection', function(socket){
 	    socket.on('setUsername', function(message){
 		  chatUsers[socket.id] = message.username;
+		  revlookup[message.username] = socket.id;
 		});
 		socket.on('msg', function(message){
 		  self.chatsocket.emit('msg',{text:message,user:chatUsers[socket.id]});
+		});
+		socket.on('rmsg', function(message){
+		  if(socket.rooms.indexOf(message.room)>-1)
+		    socket.broadcast.to(message.room).emit('rmsg',message);
+		});
+		socket.on('createRoom', function(message){
+		  if(message.type == 'thread'){
+		    if(threadChats[message.threadId]===undefined){
+  			  var roomnum = ++Object.keys(threadChats).length;
+              threadChats[message.threadId] = roomnum;
+              roomnum = 't'+roomnum;
+              chatrooms[roomnum] = [chatUsers[socket.id]];
+              socket.join(roomnum); 
+			}else{
+              socket.emit('serror',"There is already a room for this thread");
+            }
+	  	  }else if(message.type == 'group'){
+		    if(groupChats[message.groupId]===undefined){
+  			  var roomnum = ++Object.keys(groupChats).length;
+              groupChats[message.groupId] = roomnum;
+              roomnum = 'g'+roomnum;
+              chatrooms[roomnum] = [chatUsers[socket.id]];
+              socket.join(roomnum); 
+			}else{
+              socket.emit('serror',{type:"roomexists",msg:"There is already a room for this group"});
+            }
+		  }else if(message.type == 'user'){
+		    if(userChats[chatUsers[socket.id]]===undefined)
+			  userChats[chatUsers[socket.id]] = [];		  
+			var roomnum = ++Object.keys(userChats).length;
+			roomnum = 'u'+roomnum;
+            userChats[chatUsers[socket.id]].push({room:roomnum,users:[]});
+            chatrooms[roomnum] = [chatUsers[socket.id]];
+            socket.join(roomnum);	
+			if(revlookup[message.user]!==undefined){
+			  socket.broadcast.to(revlookup[message.user]).emit('chatinvite',{type:'user',room:roomnum,user:chatUsers[socket.id]});
+			}else{
+			  socket.emit('serror',{type:"nosuchuser",msg:"This user doesn't use the extension, use the invite button to pm them about it."});
+			}
+		  }
+  		});
+		socket.on('joinRoom',function(msg){
+		  chatrooms[msg.room].push(chatUsers[socket.id]);
+		  socket.join(msg.room);
+		  socket.broadcast.to(msg.room).emit('userJoin',{room:msg.room,username:chatUsers[socket.id]});
+		});
+		socket.on('getThreadChats',function(){
+		  socket.emit('threadChats',threadChats);
+		});
+		socket.on('getGroupChats',function(){
+		  socket.emit('groupChats',groupChats);
+		});
+		socket.on('getUserChats',function(){
+		  if(userChats[chatUsers[socket.id]]!==undefined)
+		    socket.emit('userChats',userChats[chatUsers[socket.id]]);
+		});
+		socket.on('getRoomUserlist',function(msg){
+		  if(chatrooms[msg.room]!==undefined)
+		    socket.emit('userlist',{room:msg.room,userlist:chatrooms[msg.room]});
+		});
+		socket.on('inviteUser',function(msg){
+		  if(revlookup[msg.user]!==undefined)
+		    socket.broadcast.to(revlookup[msg.user]).emit('chatinvite',msg.invite);
+		  else
+			socket.emit('serror',{type:"nosuchuser",msg:"This user doesn't use the extension, use the invite button to pm them about it."});
 		});
 	  });
 	  self.livesocket.on('connection', function(socket){
