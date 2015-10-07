@@ -469,6 +469,8 @@ var SampleApp = function() {
 			updatedThreads[threadId]=postId;
 			watchedThreads[threadId]=postId;
 		  }			
+		}else{
+		  console.log('Status: '+res.statusCode);
 		}
 	  });
 	  req.end();
