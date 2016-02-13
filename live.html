@@ -292,12 +292,9 @@
 		socket.on('pushData', function(msg){
 		  console.log('got push data',msg);
 		  //currentViewers += msg.data.connects.length - msg.data.disconnects.length;
-		  if(msg.data.connects.length>0){
-		    if(msg.data.disconnects.length>0)
-			  currentViewers = msg.data.connects[msg.data.connects.length-1].time.valueOf()>msg.data.disconnects[msg.data.disconnects.length-1].time.valueOf()? msg.data.connects[msg.data.connects.length-1].userCount: msg.data.disconnects[msg.data.disconnects.length-1].userCount;
-			else
-			  currentViewers = msg.data.connects[msg.data.connects.length-1].userCount;
-		  }else if(msg.data.disconnects.length>0)
+		  if(msg.data.connects.length>0)
+		    currentViewers = msg.data.connects[msg.data.connects.length-1].userCount;
+		  else if(msg.data.disconnects.length>0)
 		    currentViewers = msg.data.disconnects[msg.data.disconnects.length-1].userCount;
 		  var d = Date.now();
 		  console.log(currentViewers);
