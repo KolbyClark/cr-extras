@@ -300,10 +300,11 @@
 		  }else if(msg.data.disconnects.length>0)
 		    currentViewers = msg.data.disconnects[msg.data.disconnects.length-1].userCount;
 		  var d = Date.now();
-		  chart.get('users').addPoint([d,currentViewers],true);
+		  console.log(currentViewers);
+		  chart.get('users').addPoint([d,currentViewers],true,true);
 		  
-		  connectChart.get('users').addPoint([d,msg.data.connects.length],true);
-		  disconnectChart.get('users').addPoint([d,msg.data.disconnects.length],true);
+		  connectChart.get('users').addPoint([d,msg.data.connects.length],true,true);
+		  disconnectChart.get('users').addPoint([d,msg.data.disconnects.length],true,true);
 		});
 		socket.emit('getData');
 		
