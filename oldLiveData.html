@@ -265,7 +265,7 @@
 	  }
 	  function processViewerData(i){
 	    var data = oldData[i];
-		var connectObj = {},disconnectObj = {},totalViewers=data.initialViewers,viewers = [];
+		var connectObj = {},disconnectObj = {},totalViewers=data.initialViewers!==undefined?data.initialViewers:data.initalViewers,viewers = [];
 		for(var x=0;x<data.connects.length;x++){
 		  if(connectObj[data.connects[x].time]!==undefined)
 		    connectObj[data.connects[x].time].push(data.connects[x].username);

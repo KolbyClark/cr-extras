@@ -497,7 +497,7 @@ var SampleApp = function() {
 	  currentViewers = 0;
 	};
 	self.saveLiveData = function(){
-	  var ld = LiveData({connects : userConnects,disconnects:userDisconnects,initalViewers:initialViewers});
+	  var ld = LiveData({connects : userConnects,disconnects:userDisconnects,initialViewers:initialViewers});
 	  ld.save(function(err){
 	    if(err) console.log(err);
 	  });
