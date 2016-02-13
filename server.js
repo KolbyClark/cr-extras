@@ -479,11 +479,11 @@ var SampleApp = function() {
 	  //console.log('Updating Livestream Data.');
 	  for(var x=0;x<data.connects.length;x++){
 	    userConnects.push(data.connects[x]);
-		currentViewers++;
+		currentViewers = data.connects[x].userCount;
 	  }
 	  for(var x=0;x<data.disconnects.length;x++){
 	    userDisconnects.push(data.disconnects[x]);
-		currentViewers--;
+		currentViewers = data.disconnects[x].userCount;
 	  }
 	};
 	self.getLiveData = function(){
