@@ -138,10 +138,6 @@ var SampleApp = function() {
             res.send(self.cache_get('index.html') );
         };
 		
-		self.routes['/google9e23f6b6243a12c2.html'] = function(req,res){
-		  res.setHeader('Content-Type', 'text/html');
-		  res.send(self.cache_get('google9e23f6b6243a12c2.html'));
-		};
 		
 		self.routes['/live'] = function(req,res){
 		  res.setHeader('Content-Type', 'text/html');
